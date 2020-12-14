@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import store from '../redux/store';
+//import { connect } from "react-redux";
 import "../styles.css";
 
 import CartItem from './CartItem';
@@ -10,6 +12,14 @@ class Cart extends Component {
   getTotal() {
     const { cartGoods } = this.state;
     return cartGoods.reduce((acc, item) => acc + item.price, 0);
+  }
+  componentDidMount() {
+    store.subscribe(() => {
+      const state = store.getState();
+      this.setState({ 
+        cartGoods: [ ...state.cart ] 
+      });
+    });
   }
   render() {
     return (
